@@ -19,8 +19,8 @@ Install local npm dependencies
 npm install
 
 ## Built With
-Node - JavaScript runtime built on Chrome's V8 JavaScript engine
-Express - Node.js web application framework
-EJS - As a Template Engine
-MongoDB - NoSQL database
-Mongoose - MongoDB object modeling tool
+- Node - JavaScript runtime built on Chrome's V8 JavaScript engine
+- Express - Node.js web application framework
+- EJS - As a Template Engine
+- MongoDB - NoSQL database
+- Mongoose - MongoDB object modeling tool
