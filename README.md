@@ -10,12 +10,10 @@ Below steps are needed only for the first time when you setup your dev machine
 ## Installing
 Install node.js server from https://nodejs.org/en/download/
 
-Clone this git repository, if you haven't done already.
-
+### Clone this git repository, if you haven't done already.
 git clone https://github.com/NoOourAn/MongoProject-ToDoApp.git
 
-Install local npm dependencies
-
+### Install local npm dependencies
 npm install
 
 ## Built With
