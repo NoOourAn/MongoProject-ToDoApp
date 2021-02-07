@@ -21,4 +21,6 @@ app.use('/api/users',users)
 
 
 
-app.listen(port)
+app.listen(port,()=>{
+    console.log(`i am listening on port ${port}`)
+})
