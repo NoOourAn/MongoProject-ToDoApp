@@ -18,6 +18,11 @@ app.use(express.json());
 //Users Router
 app.use('/api/users',users)
 
+//error route
+app.get('**', (req, res) => {
+    res.render('error')
+})
+
 
 
 
