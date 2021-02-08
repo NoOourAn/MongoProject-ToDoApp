@@ -66,10 +66,7 @@ router.post('/login', async (req, res) => {
       }
 })
 
-router.get('/profile', (req, res) => {
-    res.render('profile',{ status: true, msg: "Hello there!" })
-    
-})
+
 
 
 

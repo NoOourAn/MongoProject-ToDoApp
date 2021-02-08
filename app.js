@@ -1,5 +1,8 @@
 const express = require('express')
-const users = require('./routes/users')
+const usersRoutes = require('./routes/users')
+const todosRoutes = require('./routes/todos')
+const errorRoute = require('./routes/error')
+const authMiddleware = require('./middlewares/authMiddleware')
 require('./db-conn')
 
 
@@ -16,12 +19,13 @@ app.use(express.static('public'))  ///by default it heads for public folder
 app.use(express.json());
 
 //Users Router
-app.use('/api/users',users)
+app.use('/api/users',usersRoutes)
 
+//Todos Router
+app.use('/api/todos',todosRoutes)  ///authMiddleware add this middleware when ready!!
+ 
 //error route
-app.get('**', (req, res) => {
-    res.render('error')
-})
+app.use('**', errorRoute)
 
 
 

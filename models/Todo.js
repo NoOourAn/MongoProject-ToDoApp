@@ -14,9 +14,8 @@ const todosSchema = new Schema({
         required:[true,"forgot your todo body?"]
     },
     status:{
-        type:String,
-        enum:["todo","in-progress","finished"],
-        default:"todo",
+        type:Boolean,
+        default:false,
     },
     user:{
         type:Schema.Types.ObjectId, 
