@@ -38,7 +38,7 @@
           redirect: 'follow'
         };
 
-        const profileRes = await fetch("/api/todos/profile", requestOptions).then(response => response.text()) ///render html
+        const profileRes = await fetch("/api/todos", requestOptions).then(response => response.text()) ///render html
         console.log(profileRes)
         // var x = document.getElementsByTagName("body")[0];
         // x.innerHTML = profileRes;

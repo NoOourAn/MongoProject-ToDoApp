@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/api/users',usersRoutes)
 
 //Todos Router
-app.use('/api/todos',todosRoutes)  ///authMiddleware add this middleware when ready!!
+app.use('/api/todos',authMiddleware,todosRoutes)  
  
 //error route
 app.use('**', errorRoute)

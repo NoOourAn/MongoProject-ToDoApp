@@ -9,7 +9,11 @@ router.use(express.json());
 
 ///to get the error 404 not found template
 router.get('/', (req, res) => {
-    res.render('error')
+    const obj = {
+        statuts:404,
+        message:"page not found",
+    }
+    res.send(obj);
 })
   
 
