@@ -1,2 +1,2 @@
-backend/node_modules
-backend/.vscode
+*/node_modules
+*/.vscode
