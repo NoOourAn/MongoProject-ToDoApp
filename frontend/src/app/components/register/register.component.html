@@ -1,0 +1,71 @@
+<div class="container-block">
+
+    <div class="main-block">
+        <h1>Registration</h1>
+
+        <span *ngIf="successMsg">
+            <ngb-alert type="success" [dismissible]="false">
+                {{successMsg}}
+            </ngb-alert>
+        </span>
+
+          <span *ngIf="errorMsg">
+            <ngb-alert type="danger" [dismissible]="false">
+                {{errorMsg}}
+            </ngb-alert>
+          </span>
+
+        <form [formGroup] = RegForm>
+            <hr>
+            <!-- username input -->
+            <label id="icon" for="username"><fa-icon [icon]="faUser"></fa-icon></label>
+            <input type="text" formControlName="username" name="username" id="username" placeholder="Username"/>
+
+            <!-- handling username errors -->
+            <div *ngIf="usernameError">
+                <div class="alert alert-danger my-2" role="alert">
+                    {{usernameError}}
+                </div>
+            </div>
+            <!-- email input -->
+            <label id="icon" for="email"><fa-icon [icon]="faEnvelope"></fa-icon></label>
+            <input type="text" formControlName="email" name="email" id="email" placeholder="E-mail"/>
+
+            <!-- handling email errors -->
+            <div *ngIf="emailError">
+                <div class="alert alert-danger my-2" role="alert">
+                    {{emailError}}
+                </div>
+            </div>
+            <!-- password input -->
+            <label id="icon" for="password"><fa-icon [icon]="faLock"></fa-icon></label>
+            <input type="password" formControlName="password" name="password" id="password" placeholder="Password"/>
+            
+            <!-- handling password errors -->
+            <div *ngIf="passwordError">
+                <div class="alert alert-danger my-2" role="alert">
+                    {{passwordError}}
+                </div>
+            </div>
+            <hr>
+    
+            <div class="btn-block">
+                <p>Already have an account? <a routerLink="login">Sign In</a>.</p>
+                <button type="submit" (click)="register()">Submit</button>
+            </div>
+        </form>
+      </div>
+
+</div>
+
+
+<!--
+<div *ngIf="RegForm.controls.email.errors && RegForm.controls.email.touched">
+    <br><br>
+    <span *ngIf="RegForm.controls.email.errors.required" class="alert alert-danger" role="alert">
+        what about the email ?!
+    </span>
+    <span *ngIf="RegForm.controls.email.errors.pattern" class="alert alert-danger" role="alert">
+        Are U trying to fool us with fake email ?
+    </span>
+</div> -->

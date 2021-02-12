@@ -4,9 +4,10 @@ const todosRoutes = require('./routes/todos')
 const errorRoute = require('./routes/error')
 const authMiddleware = require('./middlewares/authMiddleware')
 require('./db-conn')
-
+const cors = require('cors'); 
 
 const app = express()
+app.use(cors())
 const port = 3000
 
 //set up template engine

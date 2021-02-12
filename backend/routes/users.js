@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
             if(FoundUser) throw new Error("username or email already exists")
     
             ///to check if password is strong enough
-            var Passwordregex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+            var Passwordregex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}");
             let strongPassword = Passwordregex.test(password);
             if(!strongPassword) throw new Error("your password should contain Atleast 1 capital letter , 1 digit in minimum 8 long")
             ///after all validations are passed
@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
 
         }else throw new Error("username, email and password are required")
     }catch(err){
-        res.status(422).json({success:false,error:err.message}) ///head to the same page with error msg
+        res.json({success:false,msg:err.message}) ///head to the same page with error msg
     }
 })
     
