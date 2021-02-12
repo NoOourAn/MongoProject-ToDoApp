@@ -1,18 +1,51 @@
 <div class="container-block">
     <div class="main-block">
         <h1>Login</h1>
-        <form id="login-form">
+
+        <span *ngIf="errorMsg">
+            <ngb-alert type="danger" [dismissible]="false">
+                {{errorMsg}}
+            </ngb-alert>
+        </span>
+
+        <form [formGroup]="LoginForm">
         <hr>
-        <div id="result"></div>
+        <!-- username input -->
         <label id="icon" for="username"><fa-icon [icon]="faUser"></fa-icon></label>
-        <input type="text" name="username" id="username" placeholder="Username" required/>
+        <input type="text" formControlName="username" name="username" id="username" placeholder="Username" required/>
+        
+        <!-- username error handling (interactive)  -->
+        <div *ngIf="LoginForm.controls.username.errors && LoginForm.controls.username.touched">
+            <div *ngIf="LoginForm.controls.username.errors.required" class="alert alert-danger my-2" role="alert">
+                this field is required..
+            </div>
+        </div>
+
+        <!-- username error handling on submit -->
+        <div *ngIf="usernameError" class="alert alert-danger my-2" role="alert">
+            {{usernameError}}
+        </div>
+        
+        <!-- password input -->
         <label id="icon" for="password"><fa-icon [icon]="faLock"></fa-icon></label>
-        <input type="password" name="password" id="password" placeholder="Password" required/>
+        <input type="password" formControlName="password" name="password" id="password" placeholder="Password" required/>
+        
+        <!-- password error handling (interactive) -->
+        <div *ngIf="LoginForm.controls.password.errors && LoginForm.controls.password.touched">
+            <div *ngIf="LoginForm.controls.password.errors.required" class="alert alert-danger my-2" role="alert">
+                this field is required..
+            </div>
+        </div>
+        <!-- password error handling on submit -->
+        <div *ngIf="passwordError" class="alert alert-danger my-2" role="alert">
+            {{passwordError}}
+        </div>
+
         <hr>
         
         <div class="btn-block">
             <p>Don't have an account? <a routerLink="">Sign Up</a>.</p>
-            <button type="submit">Submit</button>
+            <button type="submit" (click)="login()">Submit</button>
             </div>
         </form>
     </div>

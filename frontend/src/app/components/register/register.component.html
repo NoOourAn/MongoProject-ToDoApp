@@ -21,32 +21,29 @@
             <label id="icon" for="username"><fa-icon [icon]="faUser"></fa-icon></label>
             <input type="text" formControlName="username" name="username" id="username" placeholder="Username"/>
 
-            <!-- handling username errors -->
-            <div *ngIf="usernameError">
-                <div class="alert alert-danger my-2" role="alert">
-                    {{usernameError}}
-                </div>
+            <!-- handling username errors on submit -->
+            <div *ngIf="usernameError" class="alert alert-danger my-2" role="alert">
+                {{usernameError}}
             </div>
+
             <!-- email input -->
             <label id="icon" for="email"><fa-icon [icon]="faEnvelope"></fa-icon></label>
             <input type="text" formControlName="email" name="email" id="email" placeholder="E-mail"/>
 
-            <!-- handling email errors -->
-            <div *ngIf="emailError">
-                <div class="alert alert-danger my-2" role="alert">
-                    {{emailError}}
-                </div>
+            <!-- handling email errors on submit-->
+            <div *ngIf="emailError" class="alert alert-danger my-2" role="alert">
+                {{emailError}}
             </div>
             <!-- password input -->
             <label id="icon" for="password"><fa-icon [icon]="faLock"></fa-icon></label>
             <input type="password" formControlName="password" name="password" id="password" placeholder="Password"/>
             
-            <!-- handling password errors -->
-            <div *ngIf="passwordError">
-                <div class="alert alert-danger my-2" role="alert">
-                    {{passwordError}}
-                </div>
+            <!-- handling password errors on submit -->
+            <div *ngIf="passwordError" class="alert alert-danger my-2" role="alert">
+                {{passwordError}}
             </div>
+
+            
             <hr>
     
             <div class="btn-block">

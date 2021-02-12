@@ -4,11 +4,12 @@ import { RouterModule,Route } from '@angular/router';
 import { RegisterComponent } from '../components/register/register.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ErrorComponent } from '../components/error/error.component';
+import { ProfileComponent } from '../components/profile/profile.component'
 
-const routes = [
+const routes = [ // should use canActivate property. canActivate takes in a guard function
   {path:'',component:RegisterComponent},
   {path:'login',component:LoginComponent},
-  // {path:'profile',component:ProfileComponent},  ////needs Authentiction
+  {path:'profile',component:ProfileComponent},  ////needs Authentiction
   {path:'**',component:ErrorComponent},
 ]
 

@@ -64,11 +64,11 @@ export class RegisterComponent implements OnInit {
       .subscribe((response)=>{
         this.res = response
         if(this.res.success){
-          this.successMsg = this.res.msg
+          this.successMsg = this.res.message
           this.RegForm.reset()
         }
         else
-          this.errorMsg = this.res.msg   
+          this.errorMsg = this.res.message   
       },
       (err)=>{
         // console.log(err)
@@ -77,18 +77,18 @@ export class RegisterComponent implements OnInit {
     }else{
       let err = this.RegForm.controls.username.errors;
       if(err){
-        if(err.required)  this.usernameError = "we need username to welcome You Dear ?"
+        if(err.required)  this.usernameError = "we need username to welcome You?"
         if(err.minlength) this.usernameError = "username should be minimum 3 letters"
         if(err.maxlength) this.usernameError = "username should be maximum 15 letters"
       }
       err = this.RegForm.controls.email.errors
       if(err){
-        if(err.required)  this.emailError = "what about the email ?!"
-        if(err.pattern)   this.emailError = "Are U trying to fool us with fake email ?"
+        if(err.required)  this.emailError = "what about the email?!"
+        if(err.pattern)   this.emailError = "Are U trying to fool us with fake email?"
       }
       err = this.RegForm.controls.password.errors
       if(err){
-        if(err.required)  this.passwordError = "you are strong, you need a strong password as well !"
+        if(err.required)  this.passwordError = "you are strong, you need a strong password as well!"
         if(err.pattern)   this.passwordError = "your password should contain Atleast 1 capital letter, 1 digit and be minimum 8 long"
       }
     }

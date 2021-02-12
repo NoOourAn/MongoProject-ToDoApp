@@ -24,7 +24,7 @@ router.post('/',async (req,res)=>{
             res.send(obj)
         }else throw new Error("title and body are required")
     } catch (err) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     }
 
 })
@@ -36,11 +36,11 @@ router.get('/',async (req, res) => {
         const todos = await Todo.find({user:userId})
         const obj ={
             success:true,
-            todos: (todos.length? todos : 'no todos yet!')
+            todos: (todos.length? todos : []) ///if no todos return empty list
         }
         res.send(obj)
     } catch (err) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     }
 })
 
@@ -58,7 +58,7 @@ router.get('/',async (req, res) => {
         }
         res.send(obj);
     } catch (error) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     }
  })
  .delete(async(req, res) => {  ///delete todo
@@ -72,7 +72,7 @@ router.get('/',async (req, res) => {
         }
         res.send(obj)
     } catch (err) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     } 
  })
  .patch(async(req, res) => {  ///edit todo
@@ -88,7 +88,7 @@ router.get('/',async (req, res) => {
         }
         res.send(obj);
     } catch (err) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     }      
  })
   
@@ -106,7 +106,7 @@ router.patch('/status/:id',async(req,res)=>{  ////to change todo status from unf
         }
         res.send(obj);
     } catch (err) {
-        res.status(422).json({success:false,error:err.message})
+        res.json({success:false,message:err.message})
     }
  })
 

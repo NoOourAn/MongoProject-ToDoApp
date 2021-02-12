@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const sendConfirmationMail = require('../send-email');
 
 ///to get the registeration form 
 router.get(['/','/register'], (req, res) => {
@@ -26,11 +27,14 @@ router.post('/register', async (req, res) => {
             ///after all validations are passed
             const HashedPassword = await bcrypt.hash(password, 10);
             await User.create({ username,email,password:HashedPassword})
-            res.json({success:true,msg:"You Registered Successfully..."}) ///head to the same page with success msg 
+            ////send confirmation mail to the user
+            sendConfirmationMail(email,username);
+            ///send response 
+            res.json({success:true,message:"You Registered Successfully..."}) ///head to the same page with success msg 
 
         }else throw new Error("username, email and password are required")
     }catch(err){
-        res.json({success:false,msg:err.message}) ///head to the same page with error msg
+        res.json({success:false,message:err.message}) ///head to the same page with error msg
     }
 })
     
@@ -62,9 +66,11 @@ router.post('/login', async (req, res) => {
         }else throw new Error("username and password are required")
   
       }catch(err){
-          res.status(422).json({success:false,error:err.message})
+          res.json({success:false,message:err.message})
       }
 })
+
+
 
 
 
