@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from 'src/app/services/todos.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { faPlusSquare,faTimes } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-todos',
@@ -9,8 +11,10 @@ import { TodosService } from 'src/app/services/todos.service';
 export class TodosComponent implements OnInit {
 
   res
+  faPlusSquare = faPlusSquare
+  faTimes = faTimes
   todos=[]
-  constructor(private todosService:TodosService) { }
+  constructor(private todosService:TodosService,private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.todosService.getTodos()
@@ -27,6 +31,25 @@ export class TodosComponent implements OnInit {
       console.error(err)
     })
   }
-  
 
+  ///add todo modal
+  closeResult = '';
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  
 }

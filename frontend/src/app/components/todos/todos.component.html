@@ -1,10 +1,68 @@
-<p>todos works!</p>
-<div *ngIf="todos.length > 0;else noTodos">
-    <div *ngFor="let todo of todos">
-        {{todo}}
+
+<div *ngIf="todos.length > 0;else noTodos" class="d-flex-col">
+    <h1 class="text-light">Todos</h1>
+    <div class="d-flex  align-items-center">
+        <!-- add todo -->
+        <div class="d-inline-block m-2 mr-auto">
+            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="open(content)"></fa-icon>
+        </div>
+          
+
+        <!-- group by -->
+        <div ngbDropdown class="d-inline-block m-2">
+            <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>Group by</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem>Day</button>
+            <button ngbDropdownItem>Month</button>
+            <button ngbDropdownItem>Group</button>
+            </div>
+        </div>
+        <!-- sort by -->
+        <div ngbDropdown class="d-inline-block m-2">
+            <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>Sort by</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem>Alphabetical</button>
+            <button ngbDropdownItem>Creation date</button>
+            </div>
+        </div>
     </div>
+    <!-- todos list -->
+    <ul>
+    <app-todo *ngFor="let todo of todos" [todoInfo]="todo"></app-todo>
+    </ul>
 </div>
 
+<!-- no todo -->
 <ng-template #noTodos>
-    No todos yet!
+    <p>
+        No todos yet!
+    </p>
 </ng-template>
+
+<!-- add todo  -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add todo</h4>
+      <button class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+            <input type="text" name="title" placeholder="Title" required/>
+            <input type="text" name="body" placeholder="Body" required/>
+            <select class="form-select">
+                <option selected disabled>Choose group</option>
+                <option value="1">group1</option>
+                <option value="2">group2</option>
+                <option value="3">group3</option>
+            </select>
+
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="save btn" (click)="modal.close('Save click')">Add</button>
+    </div>
+  </ng-template>

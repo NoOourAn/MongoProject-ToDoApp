@@ -1,0 +1,34 @@
+.bg-block, .filter-block {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 16px;
+    color: #666;
+}
+
+.bg-block {
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+    background: url("/assets/bg.png") no-repeat center;
+    background-size: cover;
+    height: auto;
+    min-height: 100vh;
+}   
+
+.filter-block{
+    padding: 25px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.5);
+}
+    
+    
+
+    
+   
+    
+   
+   
+   
+  

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { faTrash,faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-todo',
@@ -11,5 +12,11 @@ export class TodoComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input('todoInfo') todo;
+
+  fat = faTrash
+  fata = faTrashAlt
+
 
 }
