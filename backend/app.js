@@ -2,6 +2,7 @@ const express = require('express')
 const usersRoutes = require('./routes/users')
 const todosRoutes = require('./routes/todos')
 const errorRoute = require('./routes/error')
+const groupsRoutes = require('./routes/groups')
 const authMiddleware = require('./middlewares/authMiddleware')
 require('./db-conn')
 const cors = require('cors'); 
@@ -24,6 +25,10 @@ app.use('/api/users',usersRoutes)
 
 //Todos Router
 app.use('/api/todos',authMiddleware,todosRoutes)  
+
+//Groups Router
+app.use('/api/groups',authMiddleware,groupsRoutes)  
+
  
 //error route
 app.use('**', errorRoute)

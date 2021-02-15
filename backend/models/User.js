@@ -43,8 +43,8 @@ const usersSchema = new Schema({
         default:false
     },
 },
-{ timestamps: { updatedAt: 'modifiedAt' } ///schema options
-});
+{ timestamps: { updatedAt: 'modifiedAt' }}  ///schema options
+);
 
 
 ///handling failed validation errors

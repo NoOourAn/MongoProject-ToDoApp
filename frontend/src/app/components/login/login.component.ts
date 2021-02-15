@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import { faUser,faLock } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup ,FormControl , Validators} from '@angular/forms';
 import { UsersService } from 'src/app/services/users.service';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit ,OnDestroy{
   
   constructor(private usersService:UsersService,private router: Router) { }
 
@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
   res
   ///user input
   user
+  ///
+  subscriber
 
 
   ///login form using reactive forms
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
         username,
         password,
       }
-      this.usersService.signInUser(this.user)
+      this.subscriber = this.usersService.signInUser(this.user)
       .subscribe(
       (response)=>{
         this.res = response
@@ -75,5 +77,9 @@ export class LoginComponent implements OnInit {
       }
     }
 
+  }
+
+  ngOnDestroy() {
+    // this.subscriber.unsubscribe();
   }
 }

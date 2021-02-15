@@ -23,7 +23,3 @@ npm install
 - MongoDB - NoSQL database
 - Mongoose - MongoDB object modeling tool
 - EJS - As a Template Engine (for developing purposes only)
-
-## Design
-Inspired by: https://codepen.io/nawnaw/pen/XgxQmw
-             https://www.w3docs.com/tools/editor/5789

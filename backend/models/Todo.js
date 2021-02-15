@@ -26,7 +26,9 @@ const todosSchema = new Schema({
         ref:'Group'
     }
 
-});
+},
+{ timestamps: { updatedAt: 'modifiedAt' }}
+);
 
 const Todo = mongoose.model('Todo', todosSchema);
   

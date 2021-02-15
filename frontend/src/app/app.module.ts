@@ -16,6 +16,7 @@ import { UsersService } from './services/users.service';
 import { TodosService } from './services/todos.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
+import { GroupsService } from './services/groups.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http'
   providers: [
     UsersService,
     TodosService,
+    GroupsService,
   ],
   bootstrap: [AppComponent]
 })

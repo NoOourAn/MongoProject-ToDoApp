@@ -47,22 +47,42 @@
         <fa-icon [icon]="faTimes"></fa-icon>
       </button>
     </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-            <input type="text" name="title" placeholder="Title" required/>
-            <input type="text" name="body" placeholder="Body" required/>
-            <select class="form-select">
-                <option selected disabled>Choose group</option>
-                <option value="1">group1</option>
-                <option value="2">group2</option>
-                <option value="3">group3</option>
-            </select>
+    <form [formGroup]="AddTodoForm">
+      <div class="modal-body">
+          <div class="form-group">
+              <!-- todo title -->
+              <input type="text" formControlName="title" name="title" placeholder="Title" required/>
+              <!-- title error handling (interactive)  -->
+              <div *ngIf="AddTodoForm.controls.title.errors && AddTodoForm.controls.title.touched">
+                <div *ngIf="AddTodoForm.controls.title.errors.required">
+                    this field is required!
+                </div>
+                <div *ngIf="AddTodoForm.controls.title.errors.maxlength">
+                    title should be less than 20 letters.
+                </div>
+              </div>
+              <!-- todo body -->
+              <input type="text" formControlName="body" name="body" placeholder="Body" required/>
+              <!-- title error handling (interactive)  -->
+              <div *ngIf="AddTodoForm.controls.body.errors && AddTodoForm.controls.body.touched">
+                <div *ngIf="AddTodoForm.controls.body.errors.required">
+                    this field is required!
+                </div>
+                <div *ngIf="AddTodoForm.controls.body.errors.maxlength">
+                    title should be less than 200 letters.
+                </div>
+              </div>
+              <!-- todo group  -->
+              <select class="form-select" formControlName="group">
+                  <option  [value]="null" disabled>Choose group</option>
+                  <option *ngFor="let group of groups" [value]="group._id">{{ group.title }}</option>
+              </select>
 
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="save btn" (click)="modal.close('Save click')">Add</button>
-    </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="save btn" (click)="modal.close()" [disabled]="AddTodoForm.status === 'INVALID'">Add</button>
+      </div>
+    </form>
+
   </ng-template>

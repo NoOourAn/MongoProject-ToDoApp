@@ -22,6 +22,22 @@
     margin-bottom: 20px;
     background: rgba(0, 0, 0, 0.5);
 }
+button.btn{
+    background-color: #AAEF94;
+    color: #2E2E2E;
+    border: none;
+    box-shadow: 1px 2px 5px rgba(0,0,0,.3); 
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    padding: 10px 0;
+    margin: 10px auto;
+    width: 50%;
+}
+button.btn:hover{
+    color: #AAEF94;
+    background-color: #2E2E2E;
+}
     
     
 

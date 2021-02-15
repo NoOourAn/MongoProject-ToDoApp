@@ -1,23 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { TodosService } from 'src/app/services/todos.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { faPlusSquare,faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GroupsService } from 'src/app/services/groups.service';
 
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
 
   res
   faPlusSquare = faPlusSquare
   faTimes = faTimes
   todos=[]
-  constructor(private todosService:TodosService,private modalService: NgbModal) { }
+  groups=[]
+  subscriber
+  constructor(private todosService:TodosService,private groupsService:GroupsService,private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.todosService.getTodos()
+    this.getAllTodos()
+    this.getAllGroups()
+  }
+
+  getAllGroups(){
+    this.subscriber = this.groupsService.getGroups()
+    .subscribe((response)=>{
+      this.res = response
+      if(this.res.success){
+        this.groups = this.res.groups
+        console.log(this.groups)
+      }
+    },
+    (err)=>{
+      console.error(err.message)
+    })
+  }
+  getAllTodos(){
+    this.subscriber = this.todosService.getTodos()
     .subscribe((response)=>{
       this.res = response
       if(this.res.success){
@@ -31,25 +53,64 @@ export class TodosComponent implements OnInit {
       console.error(err)
     })
   }
+  addNewTodo(todo){
+    this.subscriber = this.todosService.createTodo(todo)
+    .subscribe((response)=>{
+      this.res = response
+      if(this.res.success){
+        console.log(this.res.message)
+        this.AddTodoForm.reset();
+      }
+      else
+        console.log(this.res.message)
+    },
+    (err)=>{
+      console.error(err)
+    })
+  }
+
+  ngOnChanges(): void {
+   
+  }
 
   ///add todo modal
   closeResult = '';
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
+      ///if he hit submit
+      this.addNewTodo(this.AddTodoForm.value)
     }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      ///if he hit anything else
+      console.log("mmmmmmmm",reason)
+      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+  // private getDismissReason(reason: any): string {
+  //   if (reason === ModalDismissReasons.ESC) {
+  //     return 'by pressing ESC';
+  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+  //     return 'by clicking on a backdrop';
+  //   } else {
+  //     return `with: ${reason}`;
+  //   }
+  // }
+
+  ////add todo form
+  AddTodoForm = new FormGroup({
+    title:new FormControl('',[
+      Validators.required,
+      Validators.maxLength(20)
+    ]),
+    body:new FormControl('',[
+      Validators.required,
+      Validators.maxLength(200)
+    ]),
+    group:new FormControl(null)
+  })
+
   
+  ngOnDestroy() {
+    this.subscriber.unsubscribe();
+  }
 }

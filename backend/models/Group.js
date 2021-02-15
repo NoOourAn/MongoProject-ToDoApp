@@ -16,7 +16,9 @@ const groupsSchema = new Schema({
         type:Schema.Types.ObjectId, 
         ref:'User'
     }
-});
+},
+{ timestamps: { updatedAt: 'modifiedAt' }}
+);
 
 const Group = mongoose.model('Group', groupsSchema);
   

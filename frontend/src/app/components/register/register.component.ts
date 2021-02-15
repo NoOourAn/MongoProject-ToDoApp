@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup ,FormControl , Validators} from '@angular/forms';
 import { faUser,faEnvelope,faLock } from '@fortawesome/free-solid-svg-icons';
 import { UsersService } from 'src/app/services/users.service';
@@ -8,7 +8,7 @@ import { UsersService } from 'src/app/services/users.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit ,OnDestroy{
   //response
   successMsg;
   errorMsg;
@@ -19,6 +19,8 @@ export class RegisterComponent implements OnInit {
   faLock = faLock;
   //user input
   newUser;
+  ////
+  subscriber
 
 
   constructor(private usersService:UsersService) { }
@@ -60,7 +62,7 @@ export class RegisterComponent implements OnInit {
         email,
         password,
       }
-      this.usersService.addUser(this.newUser)
+      this.subscriber = this.usersService.addUser(this.newUser)
       .subscribe((response)=>{
         this.res = response
         if(this.res.success){
@@ -93,5 +95,9 @@ export class RegisterComponent implements OnInit {
       }
     }
   } 
+
+  ngOnDestroy() {
+    // this.subscriber.unsubscribe();
+  }
 
 }

@@ -1,7 +1,44 @@
-<div class="dark bg-light d-flex">
-    <h1 class="text-dark">Todo Details</h1>
+<div *ngIf="todo;else welcomeMsg">
+
+  <div class="card">
+    <div class="card-header">
+        Todo Details
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{todo.title}}</h5>
+      <p class="card-text">body: {{ todo.body }}</p>
+      <p class="card-text" *ngIf="todo.group">group: {{ todo.group }}</p>
+
+      <a href="#" class="btn text-right">Edit</a>
+    </div>
+    <div class="card-footer text-muted">
+      Created at: {{todo.createdAt}}
+    </div>
+  </div>
 
 </div>
+
+<ng-template #welcomeMsg>
+    <div class="welcome d-flex-col justify-content-start text-center">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+            <h1 class="card-title">Welcome to <span>Todoty</span></h1>
+            <blockquote class="blockquote mb-0">
+                <p>Before you eat the elephant, make sure you know what parts you want to eat.</p>
+                <footer class="blockquote-footer text-right mr-4">Todd Stocker</footer>
+              </blockquote>
+            <hr>
+            <p class="card-text"><span>Todoty</span> will help you to do that by organizing your duties, with the help of simple friendly interface and dozens of features</p>
+            </div>
+            <div class="card-footer text-muted">
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
     
     
     

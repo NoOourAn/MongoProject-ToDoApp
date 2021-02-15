@@ -93,12 +93,13 @@ router.get('/',async (req, res) => {
  })
   
 
-/////change todo status
+/////change todo status (if false: to true // if true: to false)
 router.patch('/status/:id',async(req,res)=>{  ////to change todo status from unfinished to finished
     try {
         const {id} = req.params;
         const userId = req.decodeData.id;
-        const todo = await Todo.findOneAndUpdate({ _id: id ,user: userId}, {status:true},{returnOriginal: false})
+        let todo = await Todo.findOne({ _id: id ,user: userId})
+        todo = await Todo.findOneAndUpdate({ _id: id ,user: userId}, {status:!todo.status},{returnOriginal: false})
         const obj = {
             success:true,
             message:(todo)? "todo status changed successfully": "todo not found",
