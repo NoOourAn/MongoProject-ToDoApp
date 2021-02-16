@@ -78,9 +78,9 @@ router.get('/',async (req, res) => {
  .patch(async(req, res) => {  ///edit todo
     try {
         const {id} = req.params;
-        const {title,body} = req.body;
+        const {title,body,group} = req.body;
         const userId = req.decodeData.id;
-        const todo = await Todo.findOneAndUpdate({ _id: id ,user: userId}, {title,body},{returnOriginal: false})
+        const todo = await Todo.findOneAndUpdate({ _id: id ,user: userId}, {title,body,group},{returnOriginal: false})
         const obj = {
             success:true,
             message:(todo)? "todo edited successfully": "todo not found",

@@ -12,17 +12,17 @@
         <div ngbDropdown class="d-inline-block m-2">
             <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>Group by</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>Day</button>
-            <button ngbDropdownItem>Month</button>
-            <button ngbDropdownItem>Group</button>
+            <button ngbDropdownItem (click)="groupTodosByDay()">Day</button>
+            <button ngbDropdownItem (click)="groupTodosByMonth()">Month</button>
+            <button ngbDropdownItem (click)="groupTodosByGroup()">Group</button>
             </div>
         </div>
         <!-- sort by -->
         <div ngbDropdown class="d-inline-block m-2">
             <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>Sort by</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>Alphabetical</button>
-            <button ngbDropdownItem>Creation date</button>
+            <button ngbDropdownItem (click)="orderTodosAlpha()">Alphabetical</button>
+            <button ngbDropdownItem (click)="orderTodosByDate()">Creation date</button>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
               </div>
               <!-- todo body -->
               <input type="text" formControlName="body" name="body" placeholder="Body" required/>
-              <!-- title error handling (interactive)  -->
+              <!-- body error handling (interactive)  -->
               <div *ngIf="AddTodoForm.controls.body.errors && AddTodoForm.controls.body.touched">
                 <div *ngIf="AddTodoForm.controls.body.errors.required">
                     this field is required!

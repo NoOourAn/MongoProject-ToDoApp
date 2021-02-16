@@ -22,7 +22,7 @@ hr{
     font-size: 25px;
     font-weight: 500;
 }
-a.btn{
+button.btn{
     background-color: #AAEF94;
     color: #2E2E2E;
     /* box-shadow: 0px 0px 10px black; */
@@ -31,8 +31,13 @@ a.btn{
     font-size: 16px;
     font-weight: 600;
     color: #fff;
+    width: 30%;
 }
-a.btn:hover{
+button.btn:hover{
     color: #AAEF94;
     background-color: #2E2E2E;
+}
+input[type=text],select{
+    margin-left: 10px;
+    border-radius: 5px;
 }

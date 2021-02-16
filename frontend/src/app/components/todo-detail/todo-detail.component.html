@@ -4,14 +4,77 @@
     <div class="card-header">
         Todo Details
     </div>
-    <div class="card-body">
+
+    <!-- show details card -->
+    <div class="card-body" *ngIf="!editable">
+      <!-- success msg if edited successfully -->
+      <span *ngIf="successMsg">
+        <ngb-alert type="success" [dismissible]="false">
+            {{successMsg}}
+        </ngb-alert>
+      </span>
+      <!-- todo detail -->
       <h5 class="card-title">{{todo.title}}</h5>
       <p class="card-text">body: {{ todo.body }}</p>
       <p class="card-text" *ngIf="todo.group">group: {{ todo.group }}</p>
 
-      <a href="#" class="btn text-right">Edit</a>
+      <button class="btn" (click)="makeTodoEditable()" >Edit</button>
     </div>
-    <div class="card-footer text-muted">
+
+    <!-- edit card -->
+    <div class="card-body" *ngIf="editable">
+      <!-- error msg if edit failed -->
+      <div *ngIf="errorMsg" class="alert alert-danger my-2" role="alert">
+          {{errorMsg}}
+      </div>
+      <!-- edit form -->
+      <form [formGroup]="EditTodoForm">
+
+        <!-- todo title -->
+        <label for="title">Title</label>
+        <input type="text" formControlName="title" [value]="todo.title" id="title">
+        <!-- title error handling (interactive)  -->
+        <div *ngIf="EditTodoForm.controls.title.errors && EditTodoForm.controls.title.touched">
+          <div *ngIf="EditTodoForm.controls.title.errors.required">
+              this field is required!
+          </div>
+          <div *ngIf="EditTodoForm.controls.title.errors.maxlength">
+              title should be less than 20 letters.
+          </div>
+        </div>
+
+        <!-- todo body -->
+        <label for="body">Body</label>
+        <input type="text" formControlName="body" [value]="todo.body" id="body">
+        <!-- body error handling (interactive)  -->
+        <div *ngIf="EditTodoForm.controls.body.errors && EditTodoForm.controls.body.touched">
+          <div *ngIf="EditTodoForm.controls.body.errors.required">
+              this field is required!
+          </div>
+          <div *ngIf="EditTodoForm.controls.body.errors.maxlength">
+              title should be less than 200 letters.
+          </div>
+        </div>
+       
+        <!-- todo group  -->
+        <label for="group">Group</label>
+        <select class="form-select" formControlName="group" id="group">
+          <option  [value]="null" disabled>Choose group</option>
+          <option *ngFor="let group of groups" [value]="group._id">{{ group.title }}</option>
+        </select>
+
+        <div class="text-right">
+          <button type="submit" class="btn mr-2" (click)="editTodo()" >Save</button>
+          <button class="btn" (click)="cancelEdit()" >Cancel</button>
+        </div>
+
+      </form>
+
+
+
+    </div>
+
+    <div class="card-footer text-muted" *ngIf="!editable">
       Created at: {{todo.createdAt}}
     </div>
   </div>

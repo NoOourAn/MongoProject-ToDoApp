@@ -42,5 +42,13 @@ export class TodosService {
     }
     return this.myClient.post(this.baseUrl,todo,header)
   }
+  editTodo(todo,todoId){
+    this.baseUrl = `http://localhost:3000/api/todos/${todoId}`
+    var header = {
+      headers: new HttpHeaders()
+        .set('Authorization', localStorage.getItem("token"))
+    }
+    return this.myClient.patch(this.baseUrl,todo,header)
+  }
 
 }

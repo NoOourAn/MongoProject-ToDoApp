@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { TodosService } from 'src/app/services/todos.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { faPlusSquare,faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GroupsService } from 'src/app/services/groups.service';
@@ -68,6 +68,27 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
       console.error(err)
     })
   }
+  ///order by functions
+  ///order by simple bubble sort func
+  orderTodosAlpha(){
+    this.todos.sort((a,b)=> a.title > b.title ? 1:-1)
+  }
+  orderTodosByDate(){
+    this.todos.sort((a,b)=> a.createdAt > b.createdAt ? 1:-1)
+  }
+
+  ///sort by functions
+  groupTodosByDay(){
+
+  }
+  groupTodosByMonth(){
+
+  }
+  groupTodosByGroup(){
+    
+  }
+
+
 
   ngOnChanges(): void {
    
@@ -85,16 +106,6 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
       // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-
-  // private getDismissReason(reason: any): string {
-  //   if (reason === ModalDismissReasons.ESC) {
-  //     return 'by pressing ESC';
-  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  //     return 'by clicking on a backdrop';
-  //   } else {
-  //     return `with: ${reason}`;
-  //   }
-  // }
 
   ////add todo form
   AddTodoForm = new FormGroup({
