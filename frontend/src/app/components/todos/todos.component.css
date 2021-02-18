@@ -42,4 +42,14 @@ button.save{
 select{
     width: 35%;
 }
+select[multiple]{
+    height: 100px;
+}
+ngb-panel ng-template[ngbPanelHeader]{
+    /* color: red;
+    text-decoration: none;
+    font-weight: 500; */
+    color: red !important;
+    padding: 0px !important;
+}
 

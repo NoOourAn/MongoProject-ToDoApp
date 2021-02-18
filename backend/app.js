@@ -3,7 +3,7 @@ const usersRoutes = require('./routes/users')
 const todosRoutes = require('./routes/todos')
 const errorRoute = require('./routes/error')
 const groupsRoutes = require('./routes/groups')
-const authMiddleware = require('./middlewares/authMiddleware')
+const authMiddleware = require('./middlewares/authMW')
 require('./db-conn')
 const cors = require('cors'); 
 

@@ -58,7 +58,8 @@ export class TodoComponent implements OnInit{
   }
 
   ngOnDestroy() {
-    this.subscriber.unsubscribe();
+    if(this.subscriber)
+      this.subscriber.unsubscribe();
   }
 
 

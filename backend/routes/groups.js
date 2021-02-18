@@ -5,7 +5,7 @@ const Todo = require('../models/Todo')
 const Group = require('../models/Group')
 
 
-///api to create new todo
+///api to create new group
 router.post('/',async (req,res)=>{
     try {
         const {title} = req.body
@@ -40,8 +40,23 @@ router.get('/',async (req, res) => {
 })
 
 
-//  ///MANIPULATE Todo with ID
-//  router.route('/:id')
+//  ///MANIPULATE Group with ID
+ router.route('/:id')
+ .delete(async(req, res) => {  ///delete group
+    try {
+        const {id} = req.params;
+        const userId = req.decodeData.id;
+        const todos = await Todo.deleteMany({group:id,user:userId})
+        const group = await Group.findOneAndDelete({_id:id,user: userId})
+        const obj = {
+            success:true,
+            message:(todos && group)? "group and related todos deleted successfully": "group not found"
+        }
+        res.send(obj)
+    } catch (err) {
+        res.json({success:false,message:err.message})
+    } 
+ })
 //  .get(async (req,res)=>{  ///to get todo with id
 //     try {
 //         const {id} = req.params;
@@ -56,20 +71,7 @@ router.get('/',async (req, res) => {
 //         res.json({success:false,message:err.message})
 //     }
 //  })
-//  .delete(async(req, res) => {  ///delete todo
-//     try {
-//         const {id} = req.params;
-//         const userId = req.decodeData.id;
-//         const todo = await Todo.findOneAndDelete({_id:id,user: userId})
-//         const obj = {
-//             success:true,
-//             message:(todo)? "todo deleted successfully": "todo not found"
-//         }
-//         res.send(obj)
-//     } catch (err) {
-//         res.json({success:false,message:err.message})
-//     } 
-//  })
+
 
   
 

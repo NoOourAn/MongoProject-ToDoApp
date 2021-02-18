@@ -60,6 +60,7 @@
         <label for="group">Group</label>
         <select class="form-select" formControlName="group" id="group">
           <option  [value]="null" disabled>Choose group</option>
+          <option  [value]="null" selected>none</option>
           <option *ngFor="let group of groups" [value]="group._id">{{ group.title }}</option>
         </select>
 

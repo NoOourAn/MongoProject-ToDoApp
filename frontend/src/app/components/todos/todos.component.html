@@ -1,10 +1,16 @@
 
 <div *ngIf="todos.length > 0;else noTodos" class="d-flex-col">
-    <h1 class="text-light">Todos</h1>
+    <h1 class="text-light" *ngIf="!grouped">Todos</h1>
+    <h1 class="text-light" *ngIf="grouped">Groups</h1>
+
     <div class="d-flex  align-items-center">
-        <!-- add todo -->
-        <div class="d-inline-block m-2 mr-auto">
-            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="open(content)"></fa-icon>
+        <!-- add todo button -->
+        <div class="d-inline-block m-2 mr-auto" *ngIf="!grouped">
+            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="openTodoModal(contentOfTodo)"></fa-icon>
+        </div>
+        <!-- return to todos -->
+        <div class="d-inline-block m-2 mr-auto" *ngIf="grouped">
+            <fa-icon class="hover-hightlight" [icon]="faArrowLeft" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="getTodosBack()"></fa-icon>
         </div>
           
 
@@ -18,7 +24,7 @@
             </div>
         </div>
         <!-- sort by -->
-        <div ngbDropdown class="d-inline-block m-2">
+        <div ngbDropdown class="d-inline-block m-2" *ngIf="!grouped">
             <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>Sort by</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem (click)="orderTodosAlpha()">Alphabetical</button>
@@ -26,10 +32,30 @@
             </div>
         </div>
     </div>
-    <!-- todos list -->
-    <ul>
-    <app-todo *ngFor="let todo of todos" [todoInfo]="todo"></app-todo>
-    </ul>
+
+
+    <!-- todos list without grouping -->
+    <div *ngIf="!grouped;else withGrouping">
+        <ul>
+            <app-todo *ngFor="let todo of todos" [todoInfo]="todo"></app-todo>
+        </ul>
+    </div>    
+
+    <!-- todos list with grouping -->
+    <ng-template #withGrouping>
+        <ngb-accordion [closeOthers]="true" #acc="ngbAccordion"> <!--activeIds="ngb-panel-0"-->
+            <ngb-panel *ngFor="let group of groupedTodos" [title]="group.day||group.month||group.groupTitle">
+                <ng-template ngbPanelContent>
+                    <app-todo *ngFor="let todo of group.todos" [todoInfo]="todo"></app-todo>
+                    <button *ngIf="group.groupId" class="btn-danger" (click)="deleteGroup(group.groupId)">Delete group</button>
+                </ng-template>
+            </ngb-panel>
+            
+        </ngb-accordion>
+        <button *ngIf="grouped" class="btn" (click)="openGroupModal(contentOfGroup)">Add group</button>
+
+    </ng-template>
+
 </div>
 
 <!-- no todo -->
@@ -39,8 +65,8 @@
     </p>
 </ng-template>
 
-<!-- add todo  -->
-<ng-template #content let-modal>
+<!-- ADD TODO  -->
+<ng-template #contentOfTodo let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Add todo</h4>
       <button class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -75,13 +101,59 @@
               <!-- todo group  -->
               <select class="form-select" formControlName="group">
                   <option  [value]="null" disabled>Choose group</option>
+                  <option  [value]="null" selected>none</option>
                   <option *ngFor="let group of groups" [value]="group._id">{{ group.title }}</option>
               </select>
+              <!-- group error handling (interactive)  -->
+              <div *ngIf="AddTodoForm.controls.group.errors && AddTodoForm.controls.body.touched">
+                <div *ngIf="AddTodoForm.controls.group.errors.required">
+                    this field is required!
+                </div>
+              </div>
 
           </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="save btn" (click)="modal.close()" [disabled]="AddTodoForm.status === 'INVALID'">Add</button>
+      </div>
+    </form>
+
+  </ng-template>
+
+
+
+  <!-- ADD GROUP  -->
+<ng-template #contentOfGroup let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add group</h4>
+      <button class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+    <form [formGroup]="AddGroupForm">
+      <div class="modal-body">
+          <div class="form-group">
+              <!-- group title -->
+              <input type="text" formControlName="title" name="title" placeholder="Title" required/>
+              <!-- title error handling (interactive)  -->
+              <div *ngIf="AddGroupForm.controls.title.errors && AddGroupForm.controls.title.touched">
+                <div *ngIf="AddGroupForm.controls.title.errors.required">
+                    this field is required!
+                </div>
+                <div *ngIf="AddGroupForm.controls.title.errors.maxlength">
+                    title should be less than 10 letters.
+                </div>
+              </div>
+              <!-- group todos  -->
+              <!-- <select class="form-select" formControlName="todos" multiple>
+                  <option  [value]="null" disabled>Choose todos</option>
+                  <option *ngFor="let todo of todos" [value]="todo._id">{{ todo.title }}</option>
+              </select> -->
+
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="save btn" (click)="modal.close()" [disabled]="AddGroupForm.status === 'INVALID'">Add</button>
       </div>
     </form>
 
