@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnChanges, OnInit, OnDestroy, Input } from '@angular/core';
 import { TodosService } from 'src/app/services/todos.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { faPlusSquare, faTimes, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
@@ -23,9 +23,20 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
   grouped=false
   constructor(private todosService:TodosService,private groupsService:GroupsService,private modalService: NgbModal) { }
 
+  feelChanges(change){
+    console.log("nnnnnnnn")
+    console.log(change)
+  }
+
   ngOnInit(): void {
     this.getAllTodos()
     this.getAllGroups()
+  }
+
+  ngOnChanges(): void {
+    // console.log("i am in...");
+    // this.getAllTodos()
+    // this.getAllGroups()
   }
 
   getAllGroups(){
@@ -136,10 +147,6 @@ getTodosBack(){
   this.grouped = false
 }
 
-  ngOnChanges(): void {
-   
-  }
-
 ////////////// ADD NEW TODO
   ////add todo func
   addNewTodo(todo){
@@ -213,7 +220,7 @@ getTodosBack(){
   AddGroupForm = new FormGroup({
     title:new FormControl('',[
       Validators.required,
-      Validators.maxLength(10)
+      Validators.maxLength(20)
     ]),
     // todos:new FormControl(null)
   })

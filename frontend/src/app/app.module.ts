@@ -8,7 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { TodosComponent } from './components/todos/todos.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { TodoDetailComponent } from './components/todo-detail/todo-detail.component';
-import { RoutingModule } from './modules/routing.module';
+import { RoutingModule } from './routing.module';
 import { ErrorComponent } from './components/error/error.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

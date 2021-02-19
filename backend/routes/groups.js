@@ -57,20 +57,6 @@ router.get('/',async (req, res) => {
         res.json({success:false,message:err.message})
     } 
  })
-//  .get(async (req,res)=>{  ///to get todo with id
-//     try {
-//         const {id} = req.params;
-//         const userId = req.decodeData.id;
-//         const todo = await Todo.findOne({ _id: id ,user: userId})
-//         const obj = {
-//             success:true,
-//             todo:(todo)? todo: "todo not found",
-//         }
-//         res.send(obj);
-//     } catch (error) {
-//         res.json({success:false,message:err.message})
-//     }
-//  })
 
 
   

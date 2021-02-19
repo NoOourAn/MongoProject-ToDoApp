@@ -6,7 +6,7 @@
     <div class="d-flex  align-items-center">
         <!-- add todo button -->
         <div class="d-inline-block m-2 mr-auto" *ngIf="!grouped">
-            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="openTodoModal(contentOfTodo)"></fa-icon>
+            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#92cc7f'}" (click)="openTodoModal(contentOfTodo)"></fa-icon>
         </div>
         <!-- return to todos -->
         <div class="d-inline-block m-2 mr-auto" *ngIf="grouped">
@@ -46,23 +46,28 @@
         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion"> <!--activeIds="ngb-panel-0"-->
             <ngb-panel *ngFor="let group of groupedTodos" [title]="group.day||group.month||group.groupTitle">
                 <ng-template ngbPanelContent>
-                    <app-todo *ngFor="let todo of group.todos" [todoInfo]="todo"></app-todo>
+                    <app-todo *ngFor="let todo of group.todos" [todoInfo]="todo" (deleteEvent) = "feelChanges($event)"></app-todo>
                     <button *ngIf="group.groupId" class="btn-danger" (click)="deleteGroup(group.groupId)">Delete group</button>
                 </ng-template>
             </ngb-panel>
-            
         </ngb-accordion>
         <button *ngIf="grouped" class="btn" (click)="openGroupModal(contentOfGroup)">Add group</button>
-
     </ng-template>
 
 </div>
 
 <!-- no todo -->
 <ng-template #noTodos>
-    <p>
-        No todos yet!
-    </p>
+    <!-- if no todos -->
+    <h1 class="text-light">
+        No todos yet 
+    </h1>
+    <div class="d-flex justify-content-center">
+        <!-- add todo button -->
+        <button class="btn p-2 m-5" (click)="openTodoModal(contentOfTodo)">Add todo</button>
+        <!-- add group button -->
+        <button class="btn p-2 m-5" (click)="openGroupModal(contentOfGroup)">Add group</button>
+    </div>
 </ng-template>
 
 <!-- ADD TODO  -->
@@ -141,7 +146,7 @@
                     this field is required!
                 </div>
                 <div *ngIf="AddGroupForm.controls.title.errors.maxlength">
-                    title should be less than 10 letters.
+                    title should be less than 20 letters.
                 </div>
               </div>
               <!-- group todos  -->

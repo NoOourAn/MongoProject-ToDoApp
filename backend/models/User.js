@@ -30,14 +30,14 @@ const usersSchema = new Schema({
         type: String,
         required:[true,"you r strong , you need a strong password as well !"]
     },  
-    todos: [{
-         type: Schema.Types.ObjectId, 
-         ref: 'Todo' 
-    }],
-    groups: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Group' 
-    }],
+    // todos: [{
+    //      type: Schema.Types.ObjectId, 
+    //      ref: 'Todo' 
+    // }],
+    // groups: [{ 
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'Group' 
+    // }],
     loggedIn: {
         type:Boolean, 
         default:false

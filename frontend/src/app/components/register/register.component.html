@@ -9,20 +9,20 @@
             </ngb-alert>
         </span>
 
-          <span *ngIf="errorMsg">
+        <span *ngIf="errorMsg">
             <ngb-alert type="danger" [dismissible]="false">
                 {{errorMsg}}
             </ngb-alert>
-          </span>
+        </span>
 
         <form [formGroup] = RegForm>
-            <hr>
+            <br>
             <!-- username input -->
             <label id="icon" for="username"><fa-icon [icon]="faUser"></fa-icon></label>
             <input type="text" formControlName="username" name="username" id="username" placeholder="Username"/>
 
             <!-- handling username errors on submit -->
-            <div *ngIf="usernameError" class="alert alert-danger my-2" role="alert">
+            <div *ngIf="usernameError" class="text-light my-2" role="alert">
                 {{usernameError}}
             </div>
 
@@ -31,7 +31,7 @@
             <input type="text" formControlName="email" name="email" id="email" placeholder="E-mail"/>
 
             <!-- handling email errors on submit-->
-            <div *ngIf="emailError" class="alert alert-danger my-2" role="alert">
+            <div *ngIf="emailError" class="text-light my-2" role="alert">
                 {{emailError}}
             </div>
             <!-- password input -->
@@ -39,7 +39,7 @@
             <input type="password" formControlName="password" name="password" id="password" placeholder="Password"/>
             
             <!-- handling password errors on submit -->
-            <div *ngIf="passwordError" class="alert alert-danger my-2" role="alert">
+            <div *ngIf="passwordError" class="text-light my-2" role="alert">
                 {{passwordError}}
             </div>
 
@@ -48,7 +48,7 @@
     
             <div class="btn-block">
                 <p>Already have an account? <a routerLink="login">Sign In</a>.</p>
-                <button type="submit" (click)="register()">Submit</button>
+                <button type="submit" (click)="register()">Sign Up</button>
             </div>
         </form>
       </div>

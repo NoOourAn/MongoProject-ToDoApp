@@ -69,11 +69,11 @@ export class LoginComponent implements OnInit ,OnDestroy{
     }else{
       let err = this.LoginForm.controls.username.errors;
       if(err){
-        this.usernameError = "this field is required.."
+        this.usernameError = true
       }
       err = this.LoginForm.controls.password.errors
       if(err){
-        this.passwordError = "this field is required.."
+        this.passwordError = true
       }
     }
 
