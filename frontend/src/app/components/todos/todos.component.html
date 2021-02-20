@@ -6,11 +6,11 @@
     <div class="d-flex  align-items-center">
         <!-- add todo button -->
         <div class="d-inline-block m-2 mr-auto" *ngIf="!grouped">
-            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#92cc7f'}" (click)="openTodoModal(contentOfTodo)"></fa-icon>
+            <fa-icon class="hover-hightlight" [icon]="faPlusSquare" size="3x"  [styles]="{'color': '#ad264a'}" (click)="openTodoModal(contentOfTodo)"></fa-icon>
         </div>
         <!-- return to todos -->
         <div class="d-inline-block m-2 mr-auto" *ngIf="grouped">
-            <fa-icon class="hover-hightlight" [icon]="faArrowLeft" size="3x"  [styles]="{'color': '#AAEF94'}" (click)="getTodosBack()"></fa-icon>
+            <fa-icon class="hover-hightlight" [icon]="faArrowLeft" size="3x"  [styles]="{'color': '#ad264a'}" (click)="getTodosBack()"></fa-icon>
         </div>
           
 
@@ -37,7 +37,7 @@
     <!-- todos list without grouping -->
     <div *ngIf="!grouped;else withGrouping">
         <ul>
-            <app-todo *ngFor="let todo of todos" [todoInfo]="todo"></app-todo>
+            <app-todo *ngFor="let todo of todos" [todoInfo]="todo" (feelChangesEvent) = "updateView()"></app-todo>
         </ul>
     </div>    
 
@@ -46,7 +46,7 @@
         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion"> <!--activeIds="ngb-panel-0"-->
             <ngb-panel *ngFor="let group of groupedTodos" [title]="group.day||group.month||group.groupTitle">
                 <ng-template ngbPanelContent>
-                    <app-todo *ngFor="let todo of group.todos" [todoInfo]="todo" (deleteEvent) = "feelChanges($event)"></app-todo>
+                    <app-todo *ngFor="let todo of group.todos" [todoInfo]="todo" ></app-todo>
                     <button *ngIf="group.groupId" class="btn-danger" (click)="deleteGroup(group.groupId)">Delete group</button>
                 </ng-template>
             </ngb-panel>
@@ -149,11 +149,6 @@
                     title should be less than 20 letters.
                 </div>
               </div>
-              <!-- group todos  -->
-              <!-- <select class="form-select" formControlName="todos" multiple>
-                  <option  [value]="null" disabled>Choose todos</option>
-                  <option *ngFor="let todo of todos" [value]="todo._id">{{ todo.title }}</option>
-              </select> -->
 
           </div>
       </div>

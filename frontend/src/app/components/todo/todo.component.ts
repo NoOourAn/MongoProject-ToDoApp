@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import { TodoDetailService } from 'src/app/services/todo-detail.service';
 import { TodosService } from 'src/app/services/todos.service';
 
@@ -8,22 +8,30 @@ import { TodosService } from 'src/app/services/todos.service';
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnInit,OnDestroy{
+export class TodoComponent implements OnInit,OnChanges,OnDestroy{
 
   constructor(private todosService:TodosService,private todoDetailService:TodoDetailService) { }
 
   ngOnInit(): void {
   }
 
+  ngOnChanges(): void {
+    if(this.todo.status)
+      this.toggleValue = true
+    else
+      this.toggleValue = false
+  }
+
   @Input('todoInfo') todo;
 
   faTrash = faTrash
+  faEdit = faEdit
   toggleValue = false
   res
   subscriber
 
   ////event emitter that feels changes on todo component and send signal to todos component to reload 
-  @Output() deleteEvent = new EventEmitter<any>(); 
+  @Output() feelChangesEvent = new EventEmitter<any>(); 
 
   changeStatus(){
     this.subscriber = this.todosService.changeTodoStatus(this.todo._id)
@@ -46,8 +54,8 @@ export class TodoComponent implements OnInit,OnDestroy{
       .subscribe((response)=>{
         this.res = response
         if(this.res.success){
-          console.log(this.res.message)
-          // this.deleteEvent.emit(this.res.message)
+          this.feelChangesEvent.emit()   ///to update the parent (todos component)
+          this.todoDetailService.clearTodoDetail()  ///to update the sibling (todo-detail component)
         }
         else
           console.error(this.res.message)
@@ -59,9 +67,8 @@ export class TodoComponent implements OnInit,OnDestroy{
 
     
 
-  boom(){
-    this.todoDetailService.getTodoDetail(this.todo._id)
-    this.deleteEvent.emit("nnn")
+  showTodoDetail(){
+    this.todoDetailService.getTodoDetail(this.todo._id) ///to update the sibling (todo-detail component)
   }
 
   ngOnDestroy() {

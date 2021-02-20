@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const usersSchema = new Schema({
@@ -7,7 +6,7 @@ const usersSchema = new Schema({
         type: String ,
         required:[true,"we need username to welcome You Dear ?"], 
         unique: true,
-        index: true , ////have created index cuz i will search by it
+        index: true ,
         minlength:3,
         maxlength:15
     }, 
@@ -18,8 +17,6 @@ const usersSchema = new Schema({
         index: true,
         validate: {
             validator: function(email) {
-                // var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-                // return emailRegex.test(email);
                 var emailRegex = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*")
                 return emailRegex.test(email)
             },
@@ -30,14 +27,6 @@ const usersSchema = new Schema({
         type: String,
         required:[true,"you r strong , you need a strong password as well !"]
     },  
-    // todos: [{
-    //      type: Schema.Types.ObjectId, 
-    //      ref: 'Todo' 
-    // }],
-    // groups: [{ 
-    //     type: Schema.Types.ObjectId, 
-    //     ref: 'Group' 
-    // }],
     loggedIn: {
         type:Boolean, 
         default:false
@@ -47,9 +36,5 @@ const usersSchema = new Schema({
 );
 
 
-///handling failed validation errors
-
-
 const User = mongoose.model('User', usersSchema);
-  
 module.exports = User

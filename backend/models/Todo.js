@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const todosSchema = new Schema({
@@ -18,10 +17,13 @@ const todosSchema = new Schema({
         default:false,
     },
     user:{
+        index: true,
         type:Schema.Types.ObjectId, 
         ref:'User'
+        
     },
     group:{
+        index: true,
         type:Schema.Types.ObjectId, 
         ref:'Group'
     }
@@ -31,5 +33,4 @@ const todosSchema = new Schema({
 );
 
 const Todo = mongoose.model('Todo', todosSchema);
-  
 module.exports = Todo

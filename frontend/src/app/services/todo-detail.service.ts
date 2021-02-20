@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HttpHeaders,HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HelperService } from './helper.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoDetailService {
 
-  constructor(private myClient:HttpClient) { }
+  constructor(private myClient:HttpClient,private helper:HelperService) { }
 
   ////variables
-  baseUrl
+  private baseUrl:string = "http://localhost:3000/api/todos";
   res
 
   private todo = new Subject<object>();
-  ///this is what we will subscribe on...
   TodoDetail = this.todo.asObservable();
 
   getTodoDetail(todoid){
-    this.baseUrl = `http://localhost:3000/api/todos/${todoid}`
-    var header = {
-      headers: new HttpHeaders()
-        .set('Authorization', localStorage.getItem("token"))
-    }
-    this.myClient.get(this.baseUrl,header)
+    const url = this.baseUrl + `/${todoid}`;
+    const header = this.helper.setHeaders()
+
+    this.myClient.get(url,header)
     .subscribe((response)=>{
       this.res=response
       if(this.res.success)
@@ -32,6 +30,9 @@ export class TodoDetailService {
     (err)=>{
       console.error(err.message)
     })
+  }
+  clearTodoDetail(){
+    this.todo.next()
   }
 
 }

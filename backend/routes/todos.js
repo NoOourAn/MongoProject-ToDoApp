@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router()
-const User = require('../models/User')
 const Todo = require('../models/Todo')
-const Group = require('../models/Group')
-const mongoose = require('mongoose');
+const helper = require('./helper')
 
 
 ///api to create new todo
@@ -40,22 +38,22 @@ router.get('/',async (req, res) => {
         let todos=[];
         ////to check filters (query parameters)
         if(month && day)
-            todos = await getTodosInMonthAndDay(userId,month,day)
+            todos = await helper.getTodosInMonthAndDay(userId,month,day)
 
         else if(month)
-            todos = await getTodosInOneMonth(userId,month)
+            todos = await helper.getTodosInOneMonth(userId,month)
     
         else if(day)
-            todos = await getTodosInOneDay(userId,day)
+            todos = await helper.getTodosInOneDay(userId,day)
             
         else if(groupBy=='day')
-            todos = await groupTodosByDay(userId)
+            todos = await helper.groupTodosByDay(userId)
         
         else if(groupBy=='month')
-            todos = await groupTodosByMonth(userId)
+            todos = await helper.groupTodosByMonth(userId)
 
         else if(groupBy=='group')
-            todos = await groupTodosByGroup(userId)
+            todos = await helper.groupTodosByGroup(userId)
 
         else
             todos = await Todo.find({user:userId})
@@ -121,7 +119,7 @@ router.get('/',async (req, res) => {
   
 
 /////change todo status (if false: to true // if true: to false)
-router.patch('/status/:id',async(req,res)=>{  ////to change todo status from unfinished to finished
+router.patch('/status/:id',async(req,res)=>{
     try {
         const {id} = req.params;
         const userId = req.decodeData.id;
@@ -138,210 +136,7 @@ router.patch('/status/:id',async(req,res)=>{  ////to change todo status from unf
     }
  });
 
-////helper functions
-///function to get user todos in specific month and day
-async function getTodosInMonthAndDay(userId,month,day){
-    let todos=[];
-    todos = await Todo.aggregate([
-        {
-            $match: { 
-                user: new mongoose.Types.ObjectId(userId) 
-            }
-        },
-        {
-            $project: {
-                title:1,
-                creayedAt:1,
-                modifiedAt:1,
-                day: {$dayOfMonth: '$createdAt'},
-                month: {$month: '$createdAt'}
-            }
-        },
-        {
-            $match: {
-                month: parseInt(month),
-                day: parseInt(day)
-            }
-        }
-    ]).exec();
-    return todos;
-}
-//////function to get todos in specific month
-async function getTodosInOneMonth(userId,month){
-    let todos=[]
-    todos = await Todo.aggregate([
-        {
-            $match: { 
-                user: new mongoose.Types.ObjectId(userId) 
-            }
-        },
-        {
-            $project: {
-                title:1,
-                creayedAt:1,
-                modifiedAt:1,
-                month: {$month: '$createdAt'}
-            }
-        },
-        {
-            $match: {
-                month: parseInt(month)
-            }
-        }
-    ]).exec();
 
-    return todos;
-}
-/////function to get todos in specific day
-async function getTodosInOneDay(userId,day){
-    let todos=[]
-    todos = await Todo.aggregate([
-        { 
-            $match: { 
-                user: new mongoose.Types.ObjectId(userId) 
-            }
-        },
-        {
-            $project: {
-                title:1,
-                creayedAt:1,
-                modifiedAt:1,
-                day: {$dayOfMonth: '$createdAt'}
-            }
-        },
-        {
-            $match: {
-                day: parseInt(day)
-            }
-        }
-    ]).exec();
-
-    return todos
-}
-
-/////////function to get todos grouped by day
-async function groupTodosByDay(userId){
-    let todos= [];
-    let temp= [];
-    let groups= [];
-    groups = await Todo.aggregate([
-        { 
-            $match: { 
-                user: new mongoose.Types.ObjectId(userId) 
-            }
-        },
-        {
-            $group: {
-                _id: {$dayOfMonth: "$createdAt"}, 
-                TodosPerDay: {$sum: 1} 
-            }
-        }
-    ]);
-    for(let group of groups){
-        
-        temp = await Todo.aggregate([
-            { 
-                $match: { 
-                    user: new mongoose.Types.ObjectId(userId) 
-                }
-            },
-            {
-                $project: {
-                    title:1,
-                    creayedAt:1,
-                    modifiedAt:1,
-                    day: {$dayOfMonth: '$createdAt'}
-                }
-            },
-            {
-                $match: {
-                    day: parseInt(group._id)  ///to get the day of the current group
-                }
-            }
-        ]).exec();
-        let obj = {
-            day:group._id,
-            todos:temp
-        }
-        todos.push(obj) 
-    }
-    // console.log(todos)
-    return todos
-}
-//////////function to get todos grouped by month
-async function groupTodosByMonth(userId){
-    let todos= [];
-    let temp= [];
-    let groups= [];
-    groups = await Todo.aggregate([
-        { 
-            $match: { 
-                user: new mongoose.Types.ObjectId(userId) 
-            }
-        },
-        {
-            $group: {
-                _id: {$month: "$createdAt"}, 
-                TodosPerMonth: {$sum: 1} 
-            }
-        }
-    ]);
-    for(let group of groups){
-        
-        temp = await Todo.aggregate([
-            { 
-                $match: { 
-                    user: new mongoose.Types.ObjectId(userId) 
-                }
-            },
-            {
-                $project: {
-                    title:1,
-                    creayedAt:1,
-                    modifiedAt:1,
-                    month: {$month: '$createdAt'}
-                }
-            },
-            {
-                $match: {
-                    month: parseInt(group._id)  ///to get the day of the current group
-                }
-            }
-        ]).exec();
-        let obj = {
-            month:group._id,
-            todos:temp
-        }
-        todos.push(obj) 
-    }
-    return todos;
-}
-//////////function to get todos grouped by group name
-async function groupTodosByGroup(userId){
-    let todos= [];
-    let temp= [];
-    let groups= [];
-    groups = await Group.find({user:userId})
-    for(let group of groups){
-        
-        temp = await Todo.aggregate([
-            { 
-                $match: { 
-                    user: new mongoose.Types.ObjectId(userId),
-                    group: new mongoose.Types.ObjectId(group._id) 
-                }
-            },
-          
-        ]).exec();
-        let obj = {
-            groupId:group._id,
-            groupTitle:group.title,
-            todos:temp
-        }
-        todos.push(obj) 
-    }
-    return todos;
-}
 
 
 module.exports = router

@@ -1,10 +1,11 @@
-<!-- <p>{{ todo.title }}</p>
-<p>{{ todo.body }}</p>
-<p>{{ todo.status }}</p> -->
 <li>
-<div class="p-3 m-2 d-flex justify-content-between" (click)="boom()">
-   <a (click)="changeStatus()" [class.toggle-todo]="toggleValue === true">{{ todo.title }}</a>
-    <fa-icon [icon]="faTrash" [styles]="{'cursor': 'pointer'}" (click)="deleteTodo()"></fa-icon>
+<div class="p-3 m-2 d-flex justify-content-between">
+    <a (click)="changeStatus()" [class.toggle-todo]="toggleValue === true">{{ todo.title }}</a>
+
+    <span>
+        <fa-icon [icon]="faEdit" class="mr-2" [styles]="{'cursor': 'pointer'}" (click)="showTodoDetail()"></fa-icon>
+        <fa-icon [icon]="faTrash"  [styles]="{'cursor': 'pointer'}" (click)="deleteTodo()"></fa-icon>
+    </span>
 </div>
 </li>
 

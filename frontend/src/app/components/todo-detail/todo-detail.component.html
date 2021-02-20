@@ -18,7 +18,8 @@
       <p class="card-text">body: {{ todo.body }}</p>
       <p class="card-text" *ngIf="todo.group">group: {{ todo.group }}</p>
 
-      <button class="btn" (click)="makeTodoEditable()" >Edit</button>
+
+      <button class="btn" (click)="makeTodoEditable()">Edit</button>
     </div>
 
     <!-- edit card -->
@@ -70,13 +71,12 @@
         </div>
 
       </form>
-
-
-
     </div>
 
     <div class="card-footer text-muted" *ngIf="!editable">
       Created at: {{todo.createdAt}}
+      <br>
+      Modified at: {{todo.modifiedAt}}
     </div>
   </div>
 

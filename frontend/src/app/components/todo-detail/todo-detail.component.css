@@ -1,12 +1,13 @@
 .card{
     min-height: 400px;
     box-shadow: 1px 2px 10px rgba(0,0,0,.3); 
+    margin-top: 140px;
 }
 .welcome h1{
     font-size: 35px;
 }
 .welcome h1 span{
-    color: #AAEF94;
+    color: #9D0029;
     font-size: 50px;
     font-weight: 600;
 }
@@ -18,12 +19,12 @@ hr{
     width: 50%;
 }
 .welcome p span{
-    color: #AAEF94;
+    color: #9D0029;
     font-size: 25px;
     font-weight: 500;
 }
 button.btn{
-    background-color: #92cc7f;
+    background-color: #9D0029;
     color: #2E2E2E;
     /* box-shadow: 0px 0px 10px black; */
     border: none;
@@ -34,7 +35,7 @@ button.btn{
     width: 30%;
 }
 button.btn:hover{
-    color: #AAEF94;
+    color: #FE792A;
     background-color: #2E2E2E;
 }
 input[type=text],select{

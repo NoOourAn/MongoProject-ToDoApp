@@ -22,16 +22,14 @@ export class TodoDetailComponent implements OnInit ,OnDestroy,OnChanges{
   constructor(private todoDetailService:TodoDetailService,private groupsService:GroupsService,private todosService:TodosService) { }
 
   ngOnInit(): void {
-
     this.getTodoDetail();
     this.getAllGroups();
-
   }
 
   ///get the todo form to fill
   makeTodoEditable(){
+    this.setDefault()
     this.editable = true
-
   }
 
   ////edit todo form
@@ -57,11 +55,11 @@ export class TodoDetailComponent implements OnInit ,OnDestroy,OnChanges{
 
   ///submit the new values
   editTodo(){
-    console.log(this.EditTodoForm.value)
     this.todosService.editTodo(this.EditTodoForm.value,this.todo._id)
     .subscribe((response)=>{
       this.res = response
       if(this.res.success){
+        this.todoDetailService.getTodoDetail(this.todo._id)
         this.successMsg = this.res.message
         this.editable = false
       }
@@ -81,10 +79,11 @@ export class TodoDetailComponent implements OnInit ,OnDestroy,OnChanges{
   ngOnChanges(): void {
 
   }
-  
+ 
   ngOnDestroy() {
-    this.subscriber.unsubscribe();
     this.editable = false
+    if(this.subscriber)
+      this.subscriber.unsubscribe();
   }
 
   ////some helper functions
@@ -94,6 +93,7 @@ export class TodoDetailComponent implements OnInit ,OnDestroy,OnChanges{
       this.res = response
       if(this.res.success){
         this.groups = this.res.groups
+        console.log(this.groups)
       }
     },
     (err)=>{
@@ -104,12 +104,16 @@ export class TodoDetailComponent implements OnInit ,OnDestroy,OnChanges{
   getTodoDetail(){
     this.subscriber = this.todoDetailService.TodoDetail
     .subscribe((todo)=>{
-      this.errorMsg = null
-      this.successMsg = null
-      this.todo = todo
-      this.editable = false
-      this.setDefault() ///to make sure the todo exist
-
+      if(todo){
+        this.errorMsg = null
+        this.successMsg = null
+        this.todo = todo
+        this.editable = false
+        this.groups.forEach(group => {
+          if(group._id == this.todo.group)
+            this.todo.group = group.title;
+        });
+      }
     },
     (err)=>{
       console.error(err.message)

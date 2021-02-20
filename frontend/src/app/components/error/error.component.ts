@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-error',
@@ -11,5 +12,7 @@ export class ErrorComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  faQuestionCircle = faQuestionCircle
 
 }

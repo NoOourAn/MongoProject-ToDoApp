@@ -23,20 +23,20 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
   grouped=false
   constructor(private todosService:TodosService,private groupsService:GroupsService,private modalService: NgbModal) { }
 
-  feelChanges(change){
-    console.log("nnnnnnnn")
-    console.log(change)
-  }
 
   ngOnInit(): void {
+    this.updateView()
+  }
+
+  ///functions to update todos component according to changes in its children
+  updateView(){
     this.getAllTodos()
     this.getAllGroups()
   }
 
+  
   ngOnChanges(): void {
-    // console.log("i am in...");
-    // this.getAllTodos()
-    // this.getAllGroups()
+    console.log("i am in...");
   }
 
   getAllGroups(){
@@ -45,8 +45,9 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
       this.res = response
       if(this.res.success){
         this.groups = this.res.groups
-        // console.log(this.groups)
       }
+      else
+        console.error(this.res.message)
     },
     (err)=>{
       console.error(err.message)
@@ -58,7 +59,6 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
       this.res = response
       if(this.res.success){
         this.todos = this.res.todos
-        // console.log(this.todos)
       }
       else
         console.error(this.res.message)
@@ -73,6 +73,7 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
     .subscribe((response)=>{
       this.res = response
       if(this.res.success){
+        this.groupTodosByGroup();
         console.log(this.res.message)
       }
       else
@@ -144,6 +145,7 @@ export class TodosComponent implements OnInit ,OnChanges , OnDestroy{
 /////////////////
 ///// GET TODOS BACK AFTER GROUPING (ungrouping)
 getTodosBack(){
+  this.updateView();
   this.grouped = false
 }
 
@@ -153,8 +155,10 @@ getTodosBack(){
     this.subscriber = this.todosService.createTodo(todo)
     .subscribe((response)=>{
       this.res = response
-      if(this.res.success)
+      if(this.res.success){
+        this.updateView();
         this.AddTodoForm.reset();      
+      }
       else
         console.log(this.res.message)
     },
@@ -170,7 +174,7 @@ getTodosBack(){
       this.addNewTodo(this.AddTodoForm.value)
     }, (reason) => {
       ///if he hit anything else
-      console.log("mmmmmmmm",reason)
+      console.log("closed:",reason)
       // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -196,8 +200,11 @@ getTodosBack(){
     this.subscriber = this.groupsService.addGroup(group)
     .subscribe((response)=>{
       this.res = response
-      if(this.res.success)
+      if(this.res.success){
+        // this.groupTodosByGroup();
+        this.updateView();
         this.AddGroupForm.reset();
+      }
       else
         console.log(this.res.message)
     },
@@ -210,23 +217,24 @@ getTodosBack(){
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       ///if he hit submit
       this.addNewGroup(this.AddGroupForm.value)
+
     }, (reason) => {
       ///if he hit anything else
-      console.log("mmmmmmmm",reason)
+      console.log("closed:",reason)
     });
   }
 
-  ////add todo form
+  ////add group form
   AddGroupForm = new FormGroup({
     title:new FormControl('',[
       Validators.required,
       Validators.maxLength(20)
     ]),
-    // todos:new FormControl(null)
   })
 
   
   ngOnDestroy() {
-    this.subscriber.unsubscribe();
+    if(this.subscriber)
+      this.subscriber.unsubscribe();
   }
 }

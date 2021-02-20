@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     width: 100%; 
-    background: url("/assets/bg.png") no-repeat center;
+    background: url("/assets/bg5.jpg") no-repeat center;
     background-size: cover;
     height: auto;
     min-height: 100vh;
@@ -23,7 +23,7 @@
     background: rgba(0, 0, 0, 0.5);
 }
 button.btn{
-    background-color: #92cc7f;
+    background-color: #ad264a;
     color: #2E2E2E;
     border: none;
     box-shadow: 1px 2px 5px rgba(0,0,0,.3); 
@@ -35,8 +35,7 @@ button.btn{
     width: 100px;
 }
 button.btn:hover{
-    color: #AAEF94;
-    background-color: #2E2E2E;
+    background-color: #282224;
 }
     
     

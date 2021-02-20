@@ -10,7 +10,8 @@ li div{
     background-color: #F8F9FA;
 }
 li div:hover{
-    background-color: #AAEF94;
+    background-color: #ad264a;
+    color: #F8F9FA;
     cursor: pointer;
 }
 li a{
@@ -18,8 +19,11 @@ li a{
     cursor: pointer;
 }
 li a:hover{
+    /* color: #F8F9FA; */
     text-decoration:line-through;
+    color: #666666;
 }
 .toggle-todo{
     text-decoration:line-through;
+    color: #666666;
 }
